@@ -1,0 +1,24 @@
+{
+  "name": "web-scraper",
+  "version": "1.0.0",
+  "description": "web-scraper",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "dev": "http-server sites"
+  },
+  "author": "Sam Schweber",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.5",
+    "dotenv": "^8.2.0",
+    "node": "^15.10.0",
+    "puppeteer": "^8.0.0",
+    "twitter": "^1.7.1"
+  },
+  "devDependencies": {
+    "http-server": "^0.12.3",
+    "mocha": "^8.3.2"
+  }
+}
