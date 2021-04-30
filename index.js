@@ -27,7 +27,7 @@ axios.get(`${live_link}`)
   console.log(str);
 })
 
-// setInterval(() => {
+ setInterval(() => {
 
   axios.get(`${config.source_link}${now}`)
 
@@ -87,25 +87,46 @@ axios.get(`${live_link}`)
        let panhandleStatus = buildTweetText(countiesByRegion, "Panhandle");
 
        T.post('statuses/update', { status: `${panhandleStatus}` + "\n#COVID19 #vaccine #Florida"}, function (err, res, data){
-           console.log(data)
+
+           if(err){
+             console.log("error")
+           }else{
+             console.log("success")
+           }
        })
        T.post('statuses/update', { status: `${northStatus}` + "\n#COVID19 #vaccine #Florida"}, function (err, res, data){
-           console.log(data)
+         if(err){
+           console.log(err)
+         }else{
+           console.log("success")
+         }
        })
        T.post('statuses/update', { status: `${centralEastStatus}` + "\n#COVID19 #vaccine #Florida"}, function (err, res, data){
-           console.log(data)
+         if(err){
+           console.log(err)
+         }else{
+           console.log("success")
+         }
        })
        T.post('statuses/update', { status: `${centralWestStatus}` + "\n#COVID19 #vaccine #Florida"}, function (err, res, data){
-           console.log(data)
+         if(err){
+           console.log(err)
+         }else{
+           console.log("success")
+         }
        })
 
        T.post('statuses/update', { status: `${southStatus}` + "\n#COVID19 #vaccine #Florida"}, function (err, res, data){
-           console.log(data)
+         if(err){
+           console.log(err)
+         }else{
+           console.log("success")
+         }
        })
   })
 
 
-//}, 600000)
+}, 600000)
 
 
 function mapCountiesToRegion(data){
@@ -155,7 +176,7 @@ function mapCountiesToRegion(data){
       case "Hernando":
       case "Hillsborough":
       case "Pinellas":
-        regions.Central_East.push(buildCountyObj(countyName, availability));
+        regions.Central_West.push(buildCountyObj(countyName, availability));
         break;
       case "Volusia":
       case "Seminole":
@@ -168,7 +189,7 @@ function mapCountiesToRegion(data){
       case "Martin":
       case "Indian River":
       case "Flagler":
-        regions.Central_West.push(buildCountyObj(countyName, availability))
+        regions.Central_East.push(buildCountyObj(countyName, availability))
         break;
       case "Manatee":
       case "Sarasota":
@@ -201,6 +222,8 @@ function buildCountyObj(countyName, availability){
     countyObj.isBooked = true;
   }else if(availability.includes("Less")){
     countyObj.percentAvailable = 1;
+  }else if(availability.includes("None")){
+    countyObj.isBooked = true;
   }
   else{
     countyObj.percentAvailable = parseFloat(availability);
@@ -210,6 +233,7 @@ function buildCountyObj(countyName, availability){
 }
 
 function buildTweetText(countiesByRegion, region){
+
   let header = `% of ${config.service} COVID Vaccine appts. remaining in ${region} Florida:\n\n`;
   let bookedCounties = [];
   let booked = "";
@@ -251,7 +275,7 @@ function buildTweetText(countiesByRegion, region){
 
   bookedCounties.forEach((item, i) => {
     if(i >= 1){
-      booked += ',' + item.county;
+      booked += ', ' + item.county;
     }else{
       booked += "Booked: " + item.county;
     }
@@ -259,3 +283,5 @@ function buildTweetText(countiesByRegion, region){
   tweet += "\n" + booked;
   return tweet
 }
+
+exports.mapCountiesToRegion = mapCountiesToRegion;
